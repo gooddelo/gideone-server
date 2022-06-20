@@ -3,6 +3,7 @@ const staff = require('./staff.js');
 const market = require('./market.js');
 const form = require('./form.js');
 const report = require('./report.js');
+const account = require('./account.js');
 
 const express = require('express');
 const app = express()
@@ -54,6 +55,17 @@ app.route('/company/:companyID/report')
 app.route('/report/:id')
   .get((req, res) => report(req, res))
   .delete((req, res) => report(req, res))
+
+app.route('/register')
+  .post((req, res) => account.register(req, res))
+app.route('/login')
+  .post((req, res) => account.login(req, res))
+app.route('/user')
+  .get((req, res) => account.user(req, res))
+app.route('/user/:id')
+  .get((req, res) => account.user(req, res))
+  .put((req, res) => account.user(req, res))
+  .delete((req, res) => account.user(req, res))
 
 app.listen(port, () => {
   console.log(`Server satrt on port: ${port}`)
