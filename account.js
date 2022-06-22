@@ -15,7 +15,7 @@ const verifyToken = (req, permission) => {
     return "A token is required for authentication";
   }
   try {
-    const decoded = jwt.verify(token, config.TOKEN_KEY);
+    const decoded = jwt.verify(token, "TOKEN_KEY");
     output.user = decoded;
   } catch (err) {
     return "Invalid Token";
@@ -31,7 +31,7 @@ const verifyToken = (req, permission) => {
   return output;
 };
 
-const register = (req, res) => {
+const register = async (req, res) => {
   if (req.method == "POST") {
     let {username, password}  = req.body
 
@@ -65,7 +65,7 @@ const register = (req, res) => {
   }
 }
 
-const login = (req, res) => {
+const login = async (req, res) => {
   if (req.method == "POST") {
     let {username, password}  = req.body
 
@@ -83,7 +83,7 @@ const login = (req, res) => {
         .send("Error username or password incorrect")
     }
 
-    if (!await bcrypt.compare(password, user.password)) {
+    if (! await bcrypt.compare(password, user.password)) {
       return res
         .status(409)
         .send("Error username or password incorrect")
